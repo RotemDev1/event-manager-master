@@ -1,0 +1,18 @@
+{% extends "event/base.html" %} {% load crispy_forms_tags %} {% block content %}
+<h1>{{user.username}}`s Profile</h1>
+<article class="media content-section">
+    <div class="article-metadata" style="color: black !important;">
+        <div style="color: black !important;">
+      
+            <b>First name:</b> {{user.first_name}}<br />
+            <b>Last name:</b> {{user.last_name}}<br />
+            <b>Email:</b> {{user.email}}
+            <br>
+            <br>
+        <div>
+            <a class="btn btn-outline-info" href="{% url 'edit_profile' %}">Edit your profile</a>
+        </div>
+        </div>
+    </div>
+</article>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends "event/base.html" %}
+{% block content %}
+<h1 class="article-content"><a href="{% url 'event-view' event.id %}">{{event.title}}</a></h1>
+
+<table style="width: inherit;" class="table">
+    <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <td>First Name</td>
+            <td>Last Name</td>
+        </tr>
+    </thead>
+    {% if users|length > 0 %}
+    {% for u in users %}
+    <tr>
+        <th scope="row">{{u.user}}</th>
+        <td>{{u.user.first_name}}</td>
+        <td>{{u.user.last_name}}</td>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <tr>
+        <td>No one attends this event.</td>
+    </tr>
+    {% endif %}
+</table>
+{% endblock content %}

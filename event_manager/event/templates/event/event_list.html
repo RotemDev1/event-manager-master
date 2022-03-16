@@ -1,0 +1,55 @@
+{% extends "event/base.html" %}
+{% block content %}
+
+{% for event in page_obj %}
+{% for cancelled in cancelled_events %}
+{% if event.id != cancelled.EventId %}
+<hr />
+<article class="media content-section">
+  <div class="media-body">
+    {% if event.cancelled %}
+    <div class="article-metadata" style="color: red !important;">
+      <b>This event is officially cancelled.</b>
+    </div>
+    {% endif %}
+    <h2><a class="article-title" href="{% url 'event-view' event.id %}">{{ event.title }}</a></h2>
+    {% if user.is_staff %}
+    <p class="" style="font-size: small;">Event ID: {{ event.id }}</p>
+    {% endif %}
+    <p class="article-content">{{ event.description }}</p>
+    <p class="article-content">
+      <b>Date range:</b> {{ event.start_date }} - {{ event.end_date }}
+    </p>
+    <p class="article-content"><b>Capacity:</b> {{ event.capacity }}</p>
+    <p class="article-content"><b>Place:</b> {{ event.place }}</p>
+    {% for u in announcements %}
+    {% if u.EventId == event.id %}
+    <div class="article-metadata" style="color: green !important;">
+      <div style="color: black !important; font-weight: bold;">Announcement:</div> {{ u.announcement }}
+      <span style="color: black !important; font-size: small;">{{ u.create_date }}</span>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</article>
+{% endif %}
+{% endfor %}
+{% endfor %}
+<div class="pagination" style="justify-content: center; padding-bottom: 5em;">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+    <a href="?page=1">&laquo; first</a>
+    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+    </span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">next</a>
+    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
+{% endblock content %}

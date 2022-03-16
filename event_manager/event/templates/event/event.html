@@ -1,0 +1,162 @@
+{% extends "event/base.html" %}{% load crispy_forms_tags %}
+{% block content %}
+
+{% if cancelled_event %}
+<div class="article-metadata" style="color: red !important;">
+    <div style="color: red !important; font-weight: bold;">This event is cancelled.</div>
+</div>
+{% else %}
+{% if recommends|length > 0 %}
+<div class="article-metadata" style="margin-bottom: 1em;">
+    <div class="d-flex" style="align-items: center; border-left: 0.5em solid; border-color: purple;">
+        <strong style="color: black; margin-left: 0.5em;">RECOMMENDED BY STAFF:</strong>
+        <span style="padding-left: 0.5em; font-style: italic;">"{{ recommends.0.text }}"</span>
+        <span style="padding-left: 0.5em; font-weight: bold;">by {{ recommends.0.user }}</span>
+    </div>
+</div>
+{% elif user.is_staff %}
+<h4>Recommend this event</h4>
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        {{ recommendForm|crispy }}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info" name="recommend_post" type="=submit"><b>Submit</b></button>
+    </div>
+</form>
+{% endif %}
+<h1>{{event.title}}</h1>
+{% if user.id %}
+{% if my_event|length > 0 %}
+<div style="float: right">
+    <a class="btn btn-outline-info" href="{% url 'event-remove_my_event' event.id %}">
+        <b>Remove from my events</b>
+    </a>
+</div>
+{% else %}
+<form action="{% url 'event-my_events' %}" method="POST" style="float: right;">
+    {% csrf_token %}
+    <div class="form-group">
+        <input type="hidden" name="EventId" value="{{ event.id }}" />
+        <button class="btn btn-outline-info" type="=submit"><b>Add to my events</b></button>
+    </div>
+</form>
+</p>
+{% endif %}
+{% endif %}
+{% if user.is_staff %}
+<p class="" style="font-size: small;">Event ID: {{ event.id }}</p>
+{% endif %}
+<p class="" style="font-size: larger;">
+    <b>About:</b><br />
+    {{ event.description }}
+</p>
+<p class="article-content">
+    <b>Date range:</b> {{ event.start_date }} - {{ event.end_date }}
+</p>
+<p class="article-content"><b>Capacity:</b> {{ registered_users }}* / {{ event.capacity }}
+    <br />
+    <small>* Number of people that attend from our website ONLY.</small><br />
+    <a href="{% url 'event-users' event.id %}">View all users who attend this event</a></p>
+<p class="article-content"><b>Place:</b> {{ event.place }}</p>
+<p class="article-content"><b>Rating:</b> {{ ratings_avg.rate__avg }}/5 (by {{ ratings_counts }} users)</p>
+{% if user.id %}
+{% if my_rating %}
+<p class="article-content"><b>My rating:</b> {{ my_rating.rate }}</p>
+{% else %}
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        {{ ratingForm }}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info" name="rating_post" type="=submit"><b>Save</b></button>
+    </div>
+</form>
+</p>
+{% endif %}
+{% endif %}
+
+<div style="color: black !important; font-weight: bold;">Announcements:</div>
+{% if announcements|length > 0 %}
+{% for u in announcements %}
+{% if u.EventId == event.id %}
+<div class="article-metadata" style="color: green !important;"> {{ u.announcement }}
+    <span style="color: black !important; font-size: small;">{{ u.create_date }}</span>
+</div>
+{% endif %}
+{% endfor %}
+{% else %}
+<div class="article-metadata">
+    No announcements
+</div>
+{% endif %}
+{% endif %}
+<br />
+
+<div style="color: black !important; font-weight: bold;">Comments: </div>
+{% if comments|length > 0 %}
+{% for c in comments %}
+
+{% for r in reports %}
+{% if r.CommentId == c %}
+<strong style="color: red;">
+    Reported
+</strong>
+{% endif %}
+{% endfor %}
+
+<div class="article-metadata {{c_class}}">
+    <div class="d-flex" style="align-items: center">
+        {{ c.text }}
+        <span class="p-2" style="color: black !important; font-weight: bold; font-size: small;"> by {{ c.user }} </span>
+        <span class="p-2" style="color: black !important; font-size: small;">{{ c.create_date }}</span>
+
+        {% if user.is_authenticated %}
+        {% if user.is_staff or user == c.user  %}
+        <a class="p-2 ml-auto" href="{% url 'delete_comment' c.id %}">
+            Delete
+        </a>
+        {% endif %}
+        {% if user != c.user  %}
+        <a style="color: red" class="p-2 ml-auto" href="{% url 'report_comment' c.id %}">
+            Report
+        </a>
+        {% endif %}
+        {% if user != c.user  %}
+        <a style="color: blue" class="p-2 ml-auto" href="{% url 'choose_comment' c.id %}">
+            Like
+        </a>
+        {% endif %}
+        {% endif %}
+    </div>
+    <div>
+        <span style="color: black !important; font-weight: bold; font-size: small;">Likes:</span>
+        {% for b in chooseComment %}
+        {% if b.CommentId == c %}
+        <span class="p-2" style="color: black !important; font-size: small; font-weight: bolder;">{{ b.user }}</span>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="article-metadata">
+    No Comments
+</div>
+{% endif %}
+<br />
+<br />
+{% if user.is_authenticated %}
+<form method="POST">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        {{ commentForm|crispy }}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info" name="comment_post" type="=submit"><b>Add Comment</b></button>
+    </div>
+</form>
+{% endif %}
+{% endblock content %}

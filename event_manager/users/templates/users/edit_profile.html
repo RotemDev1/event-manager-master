@@ -1,0 +1,16 @@
+{% extends "event/base.html" %} {% load crispy_forms_tags %} 
+
+{% block content %}
+<h1>Edit Profile</h1> 
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-outline-info" type="submit">Submit</button> 
+        <a class="btn btn-outline-info" href="{% url 'profile' %}">Back</a>
+        
+    </form>
+    <br>
+</div>
+
+{% endblock %}

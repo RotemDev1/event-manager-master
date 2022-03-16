@@ -1,0 +1,47 @@
+{% extends "event/base.html" %}
+{% block content %}
+
+{% for event in events %}
+{% for cancelled in cancelled_events %}
+{% if event.id != cancelled.EventId %}
+{% for my in my_events %}
+{% if event.id == my.EventId %}
+<hr />
+<article class="media content-section">
+    <div class="media-body">
+        {% if event.cancelled %}
+        <div class="article-metadata" style="color: red !important;">
+            <b>This event is officially cancelled.</b>
+        </div>
+        {% endif %}
+        <div style="float: right">
+            <a class="btn btn-outline-info" href="{% url 'event-remove_my_event' event.id %}">
+                <b>Remove from my events</b>
+            </a>
+        </div>
+        <h2><a class="article-title" href="{% url 'event-view' event.id %}">{{ event.title }}</a></h2>
+        {% if user.is_staff %}
+        <p class="" style="font-size: small;">Event ID: {{ event.id }}</p>
+        {% endif %}
+        <p class="article-content">{{ event.description }}</p>
+        <p class="article-content">
+            <b>Date range:</b> {{ event.start_date }} - {{ event.end_date }}
+        </p>
+        <p class="article-content"><b>Capacity:</b> {{ event.capacity }}</p>
+        <p class="article-content"><b>Place:</b> {{ event.place }}</p>
+        {% for u in announcements %}
+        {% if u.EventId == event.id %}
+        <div class="article-metadata" style="color: green !important;">
+            <div style="color: black !important; font-weight: bold;">Announcement:</div> {{ u.announcement }}
+            <span style="color: black !important; font-size: small;">{{ u.create_date }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</article>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endblock content %}

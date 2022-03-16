@@ -1,0 +1,45 @@
+{% extends "event/base.html" %}
+{% block content %}
+<h1>Calendar</h1>
+<table style="width: inherit;">
+    {% for event in events %}
+    {% for y in year_break %}
+    {% if y == event.id %}
+    <tr>
+        <td>&nbsp;</td>
+        <td></td>
+    </tr>
+    <tr style="border-bottom: 1px solid black;">
+        <td><b>{{event.start_date.year}}</b></td>
+        <td></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    {% for m in month_break %}
+    {% if m.id == event.id %}
+    {% if m.break %}
+    <tr>
+        <td>&nbsp;</td>
+        <td></td>
+    </tr>
+    {% endif %}
+    <tr>
+        <td><b>&nbsp; {{ event.start_date |date:"F" }}</b></td>
+        <td></td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    <tr>
+        <td>
+            <a class="article-title" href="{% url 'event-view' event.id %}">{{ event.title }}</a>
+            {% if event.cancelled %}
+            <b style="color: red !important;">This event is officially cancelled.</b>
+            {% endif %}
+        </td>
+        <td style="float: right;">
+            {{ event.start_date |date:"l, M d, Y" }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock content %}

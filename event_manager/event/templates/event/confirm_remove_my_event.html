@@ -1,0 +1,16 @@
+{% extends "event/base.html" %}
+{% block content %}
+{% if my_events|length > 0 %}
+<h4>Are you sure you want to remove <b>{{event.title}}</b> from your event list?</h4>
+<form method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ my_events.0.id }}" />
+    <button class="btn btn-outline-danger type="=submit"><b>Yes, remove</b></button>
+    <a class="btn btn-outline-secondary" href="{% url 'event-view' event.id %}"><b>Cancel</b></a>
+</form>
+{% else %}
+<div>
+    Event <b>{{event.title}}</b> is not in your events list.
+</div>
+{% endif %}
+{% endblock content %}

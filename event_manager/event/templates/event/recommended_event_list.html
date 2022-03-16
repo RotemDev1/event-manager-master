@@ -1,0 +1,48 @@
+{% extends "event/base.html" %}
+{% block content %}
+{% for event in events %}
+{% for cancelled in cancelled_events %}
+{% if event.id != cancelled.EventId %}
+{% for rec in recommended_events %}
+{% if event.id == rec.EventId %}
+<hr />
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata" style="margin-bottom: 1em;">
+            <div class="d-flex" style="align-items: center; border-left: 0.5em solid; border-color: purple;">
+                <strong style="color: black; margin-left: 0.5em;">RECOMMENDED BY STAFF:</strong>
+                <span style="padding-left: 0.5em; font-style: italic;">"{{ rec.text }}"</span>
+                <span style="padding-left: 0.5em; font-weight: bold;">by {{ rec.user }}</span>
+            </div>
+        </div>
+        {% if event.cancelled %}
+        <div class="article-metadata" style="color: red !important;">
+            <b>This event is officially cancelled.</b>
+        </div>
+        {% endif %}
+        <h2><a class="article-title" href="{% url 'event-view' event.id %}">{{ event.title }}</a></h2>
+        {% if user.is_staff %}
+        <p class="" style="font-size: small;">Event ID: {{ event.id }}</p>
+        {% endif %}
+        <p class="article-content">{{ event.description }}</p>
+        <p class="article-content">
+            <b>Date range:</b> {{ event.start_date }} - {{ event.end_date }}
+        </p>
+        <p class="article-content"><b>Capacity:</b> {{ event.capacity }}</p>
+        <p class="article-content"><b>Place:</b> {{ event.place }}</p>
+        {% for u in announcements %}
+        {% if u.EventId == event.id %}
+        <div class="article-metadata" style="color: green !important;">
+            <div style="color: black !important; font-weight: bold;">Announcement:</div> {{ u.announcement }}
+            <span style="color: black !important; font-size: small;">{{ u.create_date }}</span>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</article>
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endfor %}
+{% endblock content %}

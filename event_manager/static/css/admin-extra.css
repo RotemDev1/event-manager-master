@@ -1,0 +1,136 @@
+#branding h1, #branding h1, #branding h1 a:visited {
+    font-weight: 800;
+    color: white;
+    font-size: 50px;
+}
+
+#site-name {
+    font-weight: 800;
+    font-size: 50px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+}
+
+#user-tools {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: white;
+    font-size: 25px;
+    font-weight: 800;
+}
+
+#user-tools a,#user-tools a:visited{
+    color: white;
+    border-bottom: none;
+}
+
+#user-tools a:hover{
+    color: #cfcfcf;
+    border-bottom: none;
+}
+
+#header {
+    display: flex;
+    flex-direction: column;
+    background: url(/static/event/img/background.jpg) 100% 0 no-repeat fixed;
+    background-position-y: -460px;    
+    height: 100px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    border-bottom: none;
+    background-color: #000000;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+#content.colMS {
+    width: 100%;
+    max-width: fit-content;
+    font-weight: 800;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif
+}
+
+#content h1 {
+    color: #aaaaaa;
+    font-weight: 800;
+    font-size: 30px;
+}
+
+#contetn-related {
+    border-radius: 5px;
+}
+#content-related .module h2 {
+    font-weight: 600;
+    color: dimgrey;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    border-bottom: 3px groove #7200b7;
+    text-align: center;
+}
+
+#content-related .module h3 {
+    font-weight: 600;
+    color: dimgrey;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-align: center;
+}
+
+
+.module caption {
+    border-radius: 5px;
+    background-color: #7200b7;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bolder;
+}
+
+th {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1 {
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight: bolder;
+}
+
+div.breadcrumbs {
+    background-color: #24003fb8;
+    font-weight: 800;
+    color: white;
+    font-size: 20px;
+}
+
+
+div.breadcrumbs a:hover {
+    color: #cfcfcf;
+}
+
+a:link, a:visited {
+    color: #491669;
+}
+
+.submit-row input {
+    background-color: slateblue;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background-color: rgb(84, 73, 160);
+}
+
+.button.default:active, input[type=submit].default:active, .button.default:focus, input[type=submit].default:focus, .button.default:hover, input[type=submit].default:hover {
+    background-color: #6a5acdb3;
+}
+
+.button:active, input[type=submit]:active, input[type=button]:active, .button:focus, input[type=submit]:focus, input[type=button]:focus, .button:hover, input[type=submit]:hover, input[type=button]:hover {
+    background-color: #6a5acdb3;
+}
+
+.object-tools a.addlink {
+    background-color: slateblue;
+}
+
+.object-tools a:hover.addlink {
+    background-color: #6a5acdb3;
+}
+
+.object-tools a:link, .object-tools a:visited {
+    background-color: slateblue;
+}
+
+.object-tools a:hover{
+    background-color: #6a5acdb3;
+}
